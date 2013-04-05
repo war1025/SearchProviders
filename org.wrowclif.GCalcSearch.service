@@ -1,0 +1,3 @@
+[D-BUS Service]
+Name=org.wrowclif.GCalcSearch
+Exec=/usr/bin/gcalc-searchprovider

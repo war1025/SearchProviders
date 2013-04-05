@@ -229,8 +229,8 @@ public class GCalcSearch : Object {
 void main(string[] args) {
 	// We use the clipboard so we need to initialize Gtk
 	Gtk.init(ref args);
-	Bus.own_name(BusType.SESSION, "org.wrowclif.TestSearch", BusNameOwnerFlags.NONE,
-				(c) => {c.register_object("/org/wrowclif/TestSearch", new GCalcSearch());},
+	Bus.own_name(BusType.SESSION, "org.wrowclif.GCalcSearch", BusNameOwnerFlags.NONE,
+				(c) => {c.register_object("/org/wrowclif/GCalcSearch", new GCalcSearch());},
 				() => {},
 				() => stderr.printf ("Could not aquire name\n"));
 
