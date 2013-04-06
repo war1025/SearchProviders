@@ -140,8 +140,8 @@ public class ColorSearch : Object {
 		uint8 green = (uint8) ((color & 0x00ff00) >> 8);
 		uint8 blue  = (uint8) (color & 0x0000ff);
 
-		int width = 400;
-		int height = 200;
+		int width = 64;
+		int height = 64;
 		int length = width * height * 3;
 		uint8[] pixels = new uint8[length];
 		for(int i = 0; i < length; i += 3) {
