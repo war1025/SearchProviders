@@ -1,0 +1,3 @@
+[D-BUS Service]
+Name=org.wrowclif.ColorSearch
+Exec=/usr/bin/color-searchprovider
