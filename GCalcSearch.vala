@@ -83,8 +83,6 @@ public class GCalcSearch : Object {
 	 * @param metas   Where we store the meta values we create
 	 **/
 	public void get_result_metas(string[] results, out HashTable<string, Variant>[] metas) {
-		metas    = new HashTable<string, Variant>[1];
-		metas[0] = new HashTable<string, Variant>(str_hash, str_equal);
 
 		// We only ever do one calculation at a time.
 		string expr = results[0];
@@ -137,13 +135,19 @@ public class GCalcSearch : Object {
 		// { Store the results
 		//   Note: There is a bug in gnome-shell that makes results not show up if
 		//         a value isn't set for "gicon", so put in a bogus value.
-		metas[0]["id"]          = "calculatorId";
-		metas[0]["name"]        = expr;
-		metas[0]["description"] = output;
-		metas[0]["gicon"]       = "None";
+		bool has_value = output.length > 0;
 
-		this.lastSearch = expr;
-		this.lastResult = output;
+		metas = new HashTable<string, Variant>[has_value ? 1 : 0];
+		if(has_value) {
+			metas[0]                = new HashTable<string, Variant>(str_hash, str_equal);
+			metas[0]["id"]          = "calculatorId";
+			metas[0]["name"]        = expr;
+			metas[0]["description"] = output;
+			metas[0]["gicon"]       = "None";
+		}
+
+		this.lastSearch = has_value ? expr : "";
+		this.lastResult = has_value ? output : "";
 		// }
 	}
 
@@ -156,10 +160,11 @@ public class GCalcSearch : Object {
 	 * @param timestamp  When the search happened
 	 **/
 	public void activate_result(string identifier, string[] terms, uint timestamp) {
-		var clipboard = Gtk.Clipboard.get_for_display(Gdk.Display.get_default(),
-												      Gdk.SELECTION_CLIPBOARD);
-		clipboard.set_text(this.lastResult, this.lastResult.length);
-
+		if(this.lastResult.length > 0) {
+			var clipboard = Gtk.Clipboard.get_for_display(Gdk.Display.get_default(),
+														  Gdk.SELECTION_CLIPBOARD);
+			clipboard.set_text(this.lastResult, this.lastResult.length);
+		}
 	}
 
 	/**
@@ -170,13 +175,14 @@ public class GCalcSearch : Object {
 	 * @param timestamp When the search happened
 	 **/
 	public void launch_search(string[] terms, uint timestamp) {
-		Pid child_pid;
-		try {
-			Process.spawn_async(null, {"gnome-calculator", "-e", this.lastSearch},
-							    null, SpawnFlags.SEARCH_PATH, null, out child_pid);
-		} catch(SpawnError s) {
+		if(this.lastSearch.length > 0) {
+			Pid child_pid;
+			try {
+				Process.spawn_async(null, {"gnome-calculator", "-e", this.lastSearch},
+									null, SpawnFlags.SEARCH_PATH, null, out child_pid);
+			} catch(SpawnError s) {
+			}
 		}
-
 	}
 
 	/**
