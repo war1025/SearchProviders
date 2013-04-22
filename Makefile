@@ -1,8 +1,8 @@
 DESTDIR =
 PREFIX = /usr
 
-INSTALL_DATA=install -m644
-INSTALL_PROGRAM=install -m755
+INSTALL_DATA=install -Dm644
+INSTALL_PROGRAM=install -Dm755
 MKDIR=mkdir -p -m 755
 
 all: gcalc color
