@@ -11,7 +11,7 @@ install-gcalc: GCalcSearch gcalc-searchprovider.ini org.wrowclif.GCalcSearch.ser
 	${MKDIR} ${DESTDIR}${PREFIX}/share/gnome-shell/search-providers
 	${MKDIR} ${DESTDIR}${PREFIX}/share/dbus-1/services
 	${MKDIR} ${DESTDIR}${PREFIX}/bin
-	
+
 	${INSTALL_DATA} ./gcalc-searchprovider.ini ${DESTDIR}${PREFIX}/share/gnome-shell/search-providers/
 	${INSTALL_DATA} ./org.wrowclif.GCalcSearch.service ${DESTDIR}${PREFIX}/share/dbus-1/services/
 	${INSTALL_PROGRAM} ./GCalcSearch ${DESTDIR}${PREFIX}/bin/gcalc-searchprovider
@@ -25,7 +25,7 @@ restart-gcalc:
 	killall gcalc-searchprovider
 
 gcalc:
-	valac --pkg gio-2.0 --pkg gee-1.0 --pkg gtk+-3.0 --pkg gdk-3.0 --enable-experimental ./GCalcSearch.vala
+	valac --pkg gio-2.0 --pkg gee-0.8 --pkg gtk+-3.0 --pkg gdk-3.0 --enable-experimental ./GCalcSearch.vala
 
 install-color: ColorSearch color-searchprovider.ini org.wrowclif.ColorSearch.service
 	${MKDIR} ${DESTDIR}${PREFIX}/share/gnome-shell/search-providers
@@ -45,4 +45,4 @@ restart-color:
 	killall color-searchprovider
 
 color:
-	valac --pkg gio-2.0 --pkg gee-1.0 --enable-experimental -X -lm ./ColorSearch.vala
+	valac --pkg gio-2.0 --pkg gee-0.8 --enable-experimental -X -lm ./ColorSearch.vala
